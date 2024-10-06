@@ -47,5 +47,82 @@ const getEmployeeList = async (req, res) => {
         });
     }
 };
+const editEmployee = async (req, res) => {
+    const { id } = req.params; // Get employee ID from request parameters
+    const { name, email, mobileno, designation, gender, course } = req.body;
 
-module.exports = { createEmployee, getEmployeeList };
+    try {
+        // Check if employee exists
+        const employee = await Employee.findById(id);
+        if (!employee) {
+            return res.status(404).json({
+                message: "Employee not found.",
+            });
+        }
+
+        // Update employee fields
+        employee.name = name || employee.name;
+        employee.email = email || employee.email;
+        employee.mobileno = mobileno || employee.mobileno;
+        employee.designation = designation || employee.designation;
+        employee.gender = gender || employee.gender;
+        employee.course = course || employee.course;
+
+        const updatedEmployee = await employee.save();
+
+        return res.status(200).json({
+            message: "Employee updated successfully!",
+            updatedEmployee,
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Error in updating employee.",
+            error: error.message,
+        });
+    }
+};
+
+const deleteEmployee = async (req, res) => {
+    const { id } = req.params; // Ensure you are using the correct parameter name
+  
+    try {
+      const result = await Employee.findByIdAndDelete(id); // or whatever method you are using
+      if (!result) {
+        return res.status(404).json({ message: "Employee not found." });
+      }
+      return res.status(200).json({ message: "Employee deleted successfully." });
+    } catch (error) {
+      return res.status(500).json({ message: "Error deleting employee.", error: error.message });
+    }
+  };
+  
+  const getEmployeeById = async (req, res) => {
+    const { id } = req.params; // Get the employee ID from the request parameters
+    try {
+      const employee = await Employee.findById(id);
+      if (!employee) {
+        return res.status(404).json({ message: "Employee not found." });
+      }
+      return res.status(200).json({ employee });
+    } catch (error) {
+      return res.status(500).json({ message: "Error fetching employee.", error: error.message });
+    }
+  };
+  
+  const updateEmployee = async (req, res) => {
+    const { id } = req.params;
+    const { name, email, mobileno, designation, gender, course } = req.body;
+    try {
+      const updatedEmployee = await Employee.findByIdAndUpdate(id, { name, email, mobileno, designation, gender, course }, { new: true });
+      if (!updatedEmployee) {
+        return res.status(404).json({ message: "Employee not found." });
+      }
+      return res.status(200).json({ message: "Employee updated successfully.", updatedEmployee });
+    } catch (error) {
+      return res.status(500).json({ message: "Error updating employee.", error: error.message });
+    }
+  };
+    
+  
+
+module.exports = { createEmployee, getEmployeeList,editEmployee,deleteEmployee,getEmployeeById,updateEmployee };

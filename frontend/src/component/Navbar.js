@@ -1,39 +1,34 @@
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Assuming you are using react-router for navigation
+import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
+// import './Navbar.css'; // Importing the CSS file for styles
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  // const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
   const user = JSON.parse(localStorage.getItem("user-threads"));
-  const admin=user.user.userName
+  const admin = user?.user?.userName || "Admin";
 
   const handleLogout = async () => {
     try {
-        const res = await fetch(`http://localhost:10000/api/auth/logout`, {
-            method: "POST",
-            credentials: 'include', // Include cookies if needed
-        });
+      const res = await fetch(`http://localhost:10000/api/auth/logout`, {
+        method: "POST",
+        credentials: 'include',
+      });
 
-        const data = await res.json();
-
-        if (data.message === "Logged out Successfully!") {
-            // Remove user data from localStorage
-          localStorage.removeItem("user-threads");
-          setUser(null);
-            
-           
-        } else {
-            alert(`Logout Error: ${data.error || "An error occurred."}`);
-        }
+      const data = await res.json();
+      if (data.message === "Logged out Successfully!") {
+        localStorage.removeItem("user-threads");
+        setUser(null);
+      } else {
+        alert(`Logout Error: ${data.error || "An error occurred."}`);
+      }
     } catch (error) {
-        console.error("Logout Error:", error);
-        alert("An error occurred during logout.");
+      console.error("Logout Error:", error);
+      alert("An error occurred during logout.");
     }
-};
-
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -43,20 +38,20 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <img
-          src="https://www.dealsdray.com/wp-content/uploads/2023/11/logo_B2R.png" // Replace with your logo
+        <a href="/"><img
+          src="https://www.dealsdray.com/wp-content/uploads/2023/11/logo_B2R.png"
           alt="Logo"
-          style={{ height: "50px", width: "50px" }}
-        />
+          className="logo"
+        /></a>
       </div>
-      <ul className="navbar-links">
-        <li>
-          <Link to="/employee-list">Employee List</Link>
-        </li>
-        <li>
-          <Link to="/create-employee">Create Employee</Link>
-        </li>
-      </ul>
+      <div className="navbar-buttons">
+        <Link to="/all-Employee">
+          <button className="nav-button">Manage List</button>
+        </Link>
+        <Link to="/create-employee">
+          <button className="nav-button">Create Employee</button>
+        </Link>
+      </div>
       <form onSubmit={handleSearch} className="navbar-search">
         <input
           type="text"
@@ -65,17 +60,10 @@ const Navbar = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
         />
-        <button type="submit" className="search-button">
-          Search
-        </button>
+        <button type="submit" className="search-button">Search</button>
       </form>
       <div className="navbar-user">
-        {/* Display user's name from local storage */}
-        {user ? (
-          <p> {admin || "Admin"}</p>
-        ) : (
-          <p>Log in</p>
-        )}
+        <p>{admin}</p>
       </div>
       <button className="logout-btn" onClick={handleLogout}>
         Logout

@@ -9,6 +9,8 @@ import SideBar from './component/Sidebar';
 import List from './pages/List';
 import AddEmployee from "./pages/Add";
 import { ToastContainer } from "react-toastify";
+import Editable from './pages/Editable';
+import EditEmployee from './pages/Editemployee';
 
 // ProtectedLayout Component
 const ProtectedLayout = ({ children }) => {
@@ -21,7 +23,7 @@ const ProtectedLayout = ({ children }) => {
   return (
     <div className="protected-layout">
       <Navbar />
-      <SideBar />
+    
       <div className="content">
         {children}  {/* Manually render the children */}
       </div>
@@ -46,14 +48,24 @@ function App() {
             <List /> {/* Default route after login */}
           </ProtectedLayout>
         } />
-        <Route path="/add" element={
+        <Route path="/create-employee" element={
           <ProtectedLayout>
             <AddEmployee /> {/* Add Employee page */}
           </ProtectedLayout>
         } />
-        <Route path="/list" element={
+        <Route path="/employee-list" element={
           <ProtectedLayout>
             <List /> {/* Employee List */}
+          </ProtectedLayout>
+        } />
+        <Route path="/all-Employee" element={
+          <ProtectedLayout>
+            <Editable /> {/* Employee List */}
+          </ProtectedLayout>
+        } />
+         <Route path="/edit-employee/:id" element={
+          <ProtectedLayout>
+            <EditEmployee/> {/* Employee List */}
           </ProtectedLayout>
         } />
       </Routes>
