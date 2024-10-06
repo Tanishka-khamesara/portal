@@ -43,7 +43,7 @@ const EditEmployee = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:10000/api/employee/update/${id}`, {
+      const response = await fetch(`https://portal-aody.onrender.com/api/employee/update/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

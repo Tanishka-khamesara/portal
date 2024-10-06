@@ -12,7 +12,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const res = await fetch(`http://localhost:10000/api/auth/logout`, {
+      const res = await fetch(`https://portal-aody.onrender.com/api/auth/logout`, {
         method: "POST",
         credentials: 'include',
       });

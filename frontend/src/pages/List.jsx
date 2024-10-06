@@ -10,7 +10,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await fetch("http://localhost:10000/api/employee/getEmployees");
+        const response = await fetch("https://portal-aody.onrender.com/api/employee/getEmployees");
         const data = await response.json();
         if (response.ok) {
           setEmployees(data.employeeList);

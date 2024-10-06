@@ -9,7 +9,7 @@ const EmployeeList = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await fetch("http://localhost:10000/api/employee/getEmployees");
+        const response = await fetch("https://portal-aody.onrender.com/api/employee/getEmployees");
         const data = await response.json();
         if (response.ok) {
           setEmployees(data.employeeList);
@@ -31,7 +31,7 @@ const EmployeeList = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this employee?");
     if (confirmDelete) {
       try {
-        const response = await fetch(`http://localhost:10000/api/employee/delete/${id}`, {
+        const response = await fetch(`https://portal-aody.onrender.com/api/employee/delete/${id}`, {
           method: "DELETE",
         });
   
