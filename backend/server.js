@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Step 2: Configure CORS
 const corsOptions = {
-  origin: ["http://localhost:3000","https://portal-indol-one.vercel.app/auth"], // Replace with your frontend's URL
+  origin: ["http://localhost:3000","https://portal-indol-one.vercel.app"], // Replace with your frontend's URL
   credentials: true, // This allows cookies to be sent from the frontend
 };
 app.use(cors(corsOptions)); // Step 3: Use cors middleware
